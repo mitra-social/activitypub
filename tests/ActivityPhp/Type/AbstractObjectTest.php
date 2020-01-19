@@ -68,7 +68,7 @@ class AbstractObjectTest extends TestCase
      * tests getProperties() method
      */
     public function testGetProperties()
-    {	
+    {
         $expected = [
             'type',
             'id',
@@ -84,7 +84,7 @@ class AbstractObjectTest extends TestCase
         ];
 
         $this->assertEquals(
-            $expected, 
+            $expected,
             $this->typeFactory->create('Link')->getProperties()
         );
     }
@@ -93,7 +93,7 @@ class AbstractObjectTest extends TestCase
      * tests toArray() method
      */
     public function testToArrayWithEmptyProperties()
-    {	
+    {
         $expected = [
             'type' => 'Link',
             'name' => 'An example',
@@ -114,13 +114,13 @@ class AbstractObjectTest extends TestCase
      * tests toArray() method
      */
     public function testToArrayWithSomePropertiesSet()
-    {	
+    {
         $expected = [
             'type' => 'Link',
         ];
 
         $this->assertEquals(
-            $expected, 
+            $expected,
             (new Normalizer())->normalize($this->typeFactory->create('Link'))
         );
     }
@@ -148,23 +148,18 @@ class AbstractObjectTest extends TestCase
      * tests toJson() method
      */
     public function testToJsonWithSomeProperties()
-    {	
-        $expected = [
-            'type' => 'Link',
-            'name' => 'An example',
-            'href' => 'http://example.com',
-        ];
+    {
+        $expected = new Type\Core\Link();
+        $expected->name = 'An example';
+        $expected->href = 'http://example.com';
+
 
         $encoder = new JsonEncoder();
         $normalizer = new Normalizer();
 
         $this->assertEquals(
             '{"type":"Link","name":"An example","href":"http:\/\/example.com"}',
-            $encoder->encode(
-                $normalizer->normalize(
-                    $this->typeFactory->create($expected)
-                )
-            )
+            $encoder->encode($normalizer->normalize($expected))
         );
     }
 
@@ -172,12 +167,10 @@ class AbstractObjectTest extends TestCase
      * tests toJson() method and PHP JSON options
      */
     public function testToJsonWithPhpOptions()
-    {	
-        $expected = [
-            'type' => 'Link',
-            'name' => 'An example',
-            'href' => 'http://example.com',
-        ];
+    {
+        $expected = new Type\Core\Link();
+        $expected->name = 'An example';
+        $expected->href = 'http://example.com';
 
         $encoder = new JsonEncoder(JSON_PRETTY_PRINT);
         $normalizer = new Normalizer();
@@ -188,11 +181,7 @@ class AbstractObjectTest extends TestCase
     "name": "An example",
     "href": "http:\/\/example.com"
 }',
-            $encoder->encode(
-                $normalizer->normalize(
-                    $this->typeFactory->create($expected)
-                )
-            )
+            $encoder->encode($normalizer->normalize($expected))
         );
     }
 
@@ -213,7 +202,7 @@ class AbstractObjectTest extends TestCase
     public function testHasCheck()
     {
         $object = $this->typeFactory->create('ObjectType');
-        
+
         $this->assertFalse($object->has('UndefinedProperty'));
     }
 }

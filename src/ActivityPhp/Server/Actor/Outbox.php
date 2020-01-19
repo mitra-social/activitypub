@@ -70,7 +70,7 @@ class Outbox extends AbstractBox
 
         $response = $this->server->getClient()->get($url);
 
-        $this->orderedCollection = $this->server->getTypeFactory()->create($response);
+        $this->orderedCollection = $this->server->getDenormalizer()->denormalize($response);
 
         return $this->orderedCollection;
     }

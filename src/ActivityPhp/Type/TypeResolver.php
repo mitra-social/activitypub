@@ -22,11 +22,11 @@ final class TypeResolver
 {
     /**
      * A list of core types
-     * 
+     *
      * @var array
      */
     protected static $coreTypes = [
-        'Activity', 'Collection', 'CollectionPage', 
+        'Activity', 'Collection', 'CollectionPage',
         'IntransitiveActivity', 'Link', 'ObjectType',
         'OrderedCollection', 'OrderedCollectionPage',
         'Object'
@@ -34,7 +34,7 @@ final class TypeResolver
 
     /**
      * A list of actor types
-     * 
+     *
      * @var array
      */
     protected static $actorTypes = [
@@ -43,39 +43,39 @@ final class TypeResolver
 
     /**
      * A list of activity types
-     * 
+     *
      * @var array
      */
     protected static $activityTypes = [
-        'Accept', 'Add', 'Announce', 'Arrive', 'Block', 
+        'Accept', 'Add', 'Announce', 'Arrive', 'Block',
         'Create', 'Delete', 'Dislike', 'Flag', 'Follow',
         'Ignore', 'Invite', 'Join', 'Leave', 'Like', 'Listen',
-        'Move',  'Offer', 'Question', 'Read', 'Reject', 'Remove', 
-        'TentativeAccept', 'TentativeReject', 'Travel', 'Undo', 
-        'Update', 'View', 
+        'Move',  'Offer', 'Question', 'Read', 'Reject', 'Remove',
+        'TentativeAccept', 'TentativeReject', 'Travel', 'Undo',
+        'Update', 'View',
     ];
 
     /**
      * A list of object types
-     * 
+     *
      * @var array
      */
     protected static $objectTypes = [
-        'Article', 'Audio', 'Document', 'Event', 'Image', 
-        'Mention', 'Note', 'Page', 'Place', 'Profile', 
+        'Article', 'Audio', 'Document', 'Event', 'Image',
+        'Mention', 'Note', 'Page', 'Place', 'Profile',
         'Relationship', 'Tombstone', 'Video',
     ];
 
     /**
      * A list of custom types
-     * 
+     *
      * @var array
      */
     protected $customTypes = [];
 
     /**
      * Add a custom type definition in the pool.
-     * 
+     *
      * @param  string $name A short name.
      * @param  string $class Fully qualified class name.
      * @throws \Exception if class does not exist
@@ -91,12 +91,12 @@ final class TypeResolver
 
     /**
      * Get namespaced class for a given short type
-     * 
+     *
      * @param  string $type
      * @return string Related namespace
      * @throw  \Exception if a namespace was not found.
      */
-    public function getClass($type)
+    public function getClass($type): string
     {
         $ns = __NAMESPACE__;
 
@@ -130,7 +130,7 @@ final class TypeResolver
 
     /**
      * Validate an object pool type with type attribute
-     * 
+     *
      * @param  object $item
      * @param  string $poolname An expected pool name
      * @return bool
@@ -156,7 +156,7 @@ final class TypeResolver
 
     /**
      * Verify that a type exists
-     * 
+     *
      * @param  string $name
      * @return bool
      */
@@ -170,6 +170,6 @@ final class TypeResolver
                 self::$actorTypes,
                 self::$objectTypes
             )
-        );        
+        );
     }
 }

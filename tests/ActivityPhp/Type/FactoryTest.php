@@ -100,13 +100,13 @@ class FactoryTest extends TestCase
 
     /**
      * Check that all core objects have a correct type property.
-     * 
+     *
      * @dataProvider getShortTypes
      */
     public function testShortTypesInstanciation($type)
     {
         $class = $this->typeFactory->create($type, ['name' => strtolower($type)]);
-        
+
         // Assert affectation
         $this->assertEquals(
             strtolower($type),
@@ -137,7 +137,7 @@ class FactoryTest extends TestCase
 
     /**
      * Scenario for a custom validator
-     * 
+     *
      * - Add a validator in the pool for 'customProperty' attribute
      * - Create a type with this property and affect a correct value
      */
@@ -149,7 +149,7 @@ class FactoryTest extends TestCase
 
         //Type::addValidator('customProperty', MyCustomValidator::class);
         $type = $this->typeFactory->create(
-            'MyCustomType', 
+            'MyCustomType',
             ['customProperty' => 'My value']
         );
 
@@ -157,42 +157,6 @@ class FactoryTest extends TestCase
         $this->assertEquals(
             'My value',
             $type->customProperty
-        );
-    }
-
-    /**
-     * Scenario for instanciating a Type with a single array parameter 
-     */
-    public function testShortCallSuccess()
-    {
-        $type = $this->typeFactory->create([
-            'type' => 'Note',
-            'id' => 'http://example.org/missing-type'
-        ]);
-
-        // Assert type property
-        $this->assertEquals(
-            'Note',
-            $type->type
-        );
-        
-        // Assert another property
-        $this->assertEquals(
-            'http://example.org/missing-type',
-            $type->id
-        );
-    }
-
-    /**
-     * Scenario for instanciating a Type with a single array parameter 
-     * for a failing value (missing type property)
-     */
-    public function testShortCallFailing()
-    {
-        $this->expectException(Exception::class);
-
-        $type = $this->typeFactory->create(
-            ['id' => 'http://example.org/missing-type']
         );
     }
 
@@ -208,7 +172,7 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * Scenario for a custom classes and custom validator with an 
+     * Scenario for a custom classes and custom validator with an
      * failing value
      */
     public function testCustomValidatorFailing()
@@ -218,7 +182,7 @@ class FactoryTest extends TestCase
 
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
-            'MyCustomType', 
+            'MyCustomType',
             ['customProperty' => 'Bad value']
         );
     }
@@ -238,13 +202,11 @@ class FactoryTest extends TestCase
      */
     public function testCopy()
     {
-        $original = $this->typeFactory->create([
-            'type' => 'Note',
-            'id' => 'http://example.org/original-id'
-        ]);
+        $original = new Type\Extended\Object\Note();
+        $original->id = 'http://example.org/original-id';
 
         $copy = $original->copy();
-        
+
         // Assert type are equals
         $this->assertEquals(
             $original->type,
@@ -258,7 +220,7 @@ class FactoryTest extends TestCase
             $normalizer->normalize($original),
             $normalizer->normalize($copy)
         );
-        
+
         // Change a value
         $copy->id = 'http://example.org/copy-id';
 
@@ -266,13 +228,13 @@ class FactoryTest extends TestCase
         $this->assertEquals(
             'http://example.org/copy-id',
             $copy->id
-        );        
+        );
 
         // Assert original is not affected
         $this->assertEquals(
             'http://example.org/original-id',
             $original->id
-        );  
+        );
     }
 
     /**
@@ -280,10 +242,8 @@ class FactoryTest extends TestCase
      */
     public function testCopyChaining()
     {
-        $original = $this->typeFactory->create([
-            'type' => 'Note',
-            'id' => 'http://example.org/original-id'
-        ]);
+        $original = new Type\Extended\Object\Note();
+        $original->id = 'http://example.org/original-id';
 
         $copy = $original->copy();
         $copy->id = 'http://example.org/copy-id';
@@ -292,12 +252,12 @@ class FactoryTest extends TestCase
         $this->assertEquals(
             'http://example.org/copy-id',
             $copy->id
-        );        
+        );
 
         // Assert original is not affected
         $this->assertEquals(
             'http://example.org/original-id',
             $original->id
-        );  
+        );
     }
 }

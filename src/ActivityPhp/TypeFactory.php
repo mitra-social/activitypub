@@ -11,14 +11,14 @@ use Exception;
 
 /**
  * \ActivityPhp\Type is a Factory for ActivityStreams 2.0 types.
- * 
+ *
  * It provides shortcuts methods for type instanciation and more.
- * 
+ *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#types
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#activity-types
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#actor-types
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#object-types
- */ 
+ */
 final class TypeFactory
 {
 
@@ -47,44 +47,19 @@ final class TypeFactory
      *
      * @param string|array $type
      * @param array $attributes
-     * @return \ActivityPhp\Type\AbstractObject
+     * @return AbstractObject
      * @throws Exception
      */
-    public function create($type, array $attributes = []): AbstractObject
+    public function create(string $type, array $attributes = []): AbstractObject
     {
-        if (!is_string($type) && !is_array($type)) {
-            throw new Exception(
-                "Type parameter must be a string or an array. Given="
-                . gettype($type)
-            );
-        }
-
-        if (is_array($type)) {
-            if (!isset($type['type'])) {
-                throw new Exception("Type parameter must have a 'type' key");
-            } else {
-                $attributes = $type;
-            }
-        }
-
-        try {
-            $class = is_array($type)
-                ? $this->typeResolver->getClass($type['type'])
-                : $this->typeResolver->getClass($type);
-        } catch(Exception $e) {
-            $message = json_encode($attributes, JSON_PRETTY_PRINT);
-            throw new Exception($e->getMessage() . "\n$message");
-        }
-
-        if (is_string($class)) {
-            $class = new $class();
-        }
+        $className = $this->typeResolver->getClass($type);
+        $object = new $className();
 
         foreach ($attributes as $name => $value) {
-            $class->set($name, $value);
+            $object->set($name, $value);
         }
 
-        return $class;
+        return $object;
     }
 
     /**

@@ -17,7 +17,7 @@ use ActivityPhp\Type;
 use Exception;
 
 /**
- * \ActivityPhp\Server\ActorFactory provides a factory for server-side 
+ * \ActivityPhp\Server\ActorFactory provides a factory for server-side
  * actor.
  */
 final class ActorFactory
@@ -37,7 +37,7 @@ final class ActorFactory
 
     /**
      * Create an actor from its profile url
-     * 
+     *
      * @param  string $url
      * @return \ActivityPhp\Type\Extended\AbstractActor
      * @throws \Exception if actor does not exist
@@ -50,8 +50,8 @@ final class ActorFactory
         ) {
             return $this->createLocalActor($url);
         }
-        
-        
+
+
         $content = $this->server->getClient()->get($url);
 
         if (!is_array($content)
@@ -83,22 +83,21 @@ final class ActorFactory
 
     /**
      * Create an actor type from a profile id
-     * 
+     *
      * @param  string $url
      * @return string
      */
     public function createLocalActor(string $url)
     {
-        return $this->server->getTypeFactory()->create([
+        return $this->server->getTypeFactory()->create('Person', [
             'id'   => $url,
-            'type' => 'Person',
             'preferredUsername' => $this->extractHandle($url)
         ]);
     }
 
     /**
      * Parse an actor handle from a profile id
-     * 
+     *
      * @param  string $url
      * @return string
      */

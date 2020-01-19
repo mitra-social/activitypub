@@ -76,7 +76,7 @@ class AttributeFormatValidationTest extends TestCase
     {
         parent::setUp();
 
-        $this->typeFactory = new TypeFactory(new Type\TypeResolver(), new Type\Validator());
+        $this->typeFactory = new TypeFactory(new Type\TypeResolver());
     }
 
 	/**
@@ -84,18 +84,15 @@ class AttributeFormatValidationTest extends TestCase
 	 */
 	public function getValidAttributesScenarios()
 	{
-        $typeFactory = new TypeFactory(new Type\TypeResolver(), new Type\Validator());
+        $typeFactory = new TypeFactory(new Type\TypeResolver());
 
-        $link = $typeFactory->create([
-            'type' => 'Link',
+        $link = $typeFactory->create('Link', [
             'href' => 'https://example.com/my-href'
         ]);
-        $note = $typeFactory->create([
-            'type' => 'Note',
+        $note = $typeFactory->create('Note', [
             'name' => "It's a note"
         ]);
-        $place = $typeFactory->create([
-            'type' => 'Place',
+        $place = $typeFactory->create('Place', [
             'name' => "Over the Arabian Sea, east of Socotra Island Nature Sanctuary",
             'longitude' => 12.34,
             'latitude' => 56.78,
@@ -142,8 +139,8 @@ class AttributeFormatValidationTest extends TestCase
                               ]
                             ]                                          ], # Set anyOf choices
 ['attachment', Note::class, []                                         ], # Set attachment with an empty array
-['attachment', Note::class, $typeFactory->create(['type'=> 'Object'])          ], # Set attachment with an Object type
-['attachment', Note::class, [ $typeFactory->create(['type'=> 'Object']) ]      ], # Set attachment with an array of Object types
+['attachment', Note::class, $typeFactory->create('Object')          ], # Set attachment with an Object type
+['attachment', Note::class, [ $typeFactory->create('Object') ]      ], # Set attachment with an array of Object types
 ['attachment', Note::class, [
                                [
                                  "type"    => "Image",
@@ -1399,11 +1396,11 @@ class AttributeFormatValidationTest extends TestCase
         // Cast $value
         if (is_array($value)) {
             if (isset($value['type'])) {
-                $value = $this->typeFactory->create($value);
+                $value = $this->typeFactory->create($value['type'], $value);
             } elseif (is_int(key($value))) {
                 $value = array_map(function($value) {
                         return is_array($value) && isset($value['type'])
-                            ? $this->typeFactory->create($value)
+                            ? $this->typeFactory->create($value['type'], $value)
                             : $value;
                     },
                     $value
