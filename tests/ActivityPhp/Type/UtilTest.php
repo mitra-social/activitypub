@@ -15,7 +15,7 @@ class UtilTest extends TestCase
     public function testIsTypeReturnFalse()
     {
         $this->assertEquals(
-            false, 
+            false,
             Util::isType('hello', 'type')
         );
 	}
@@ -29,7 +29,7 @@ class UtilTest extends TestCase
         $obj = new \StdClass;
 
         $this->assertEquals(
-            false, 
+            false,
             Util::subclassOf($obj, 'Class')
         );
 	}
@@ -45,7 +45,7 @@ class UtilTest extends TestCase
         $obj = new \StdClass;
 
         $this->assertEquals(
-            false, 
+            false,
             Util::subclassOf($obj, 'Class', true)
         );
 	}
@@ -57,7 +57,7 @@ class UtilTest extends TestCase
     public function testIsNotAValidDuration()
     {
         $this->assertEquals(
-            false, 
+            false,
             Util::isDuration('MALFORMED')
         );
 	}
@@ -88,7 +88,7 @@ class UtilTest extends TestCase
     public function testIsNotAValidBcp47Type()
     {
         $this->assertEquals(
-            false, 
+            false,
             Util::validateBcp47([])
         );
 	}
@@ -99,7 +99,7 @@ class UtilTest extends TestCase
     public function testValidateCollectionNotAnObject()
     {
         $this->assertEquals(
-            false, 
+            false,
             Util::validateCollection('MyStringCollection')
         );
 	}
@@ -115,27 +115,6 @@ class UtilTest extends TestCase
 	}
 
     /**
-     * Pass a malformed JSON string
-     */
-    public function testDecodeJsonFailing()
-    {
-        $this->expectException(Exception::class);
-
-        Util::decodeJson('hello');
-	}
-
-    /**
-     * Pass JSON string and get an array
-     */
-    public function testDecodeJson()
-    {
-        $this->assertEquals(
-            ['name' => 'hello'], 
-            Util::decodeJson('{"name":"hello"}')
-        );
-	}
-
-    /**
      * An object must have a property.
      * In non strict mode, it must return false
      */
@@ -144,7 +123,7 @@ class UtilTest extends TestCase
         $item = new \StdClass;
 
         $this->assertEquals(
-            false, 
+            false,
             Util::hasProperties($item, ['type'])
         );
 	}
@@ -155,7 +134,7 @@ class UtilTest extends TestCase
     public function testValidateMagnetFailing()
     {
         $this->assertEquals(
-            false, 
+            false,
             Util::validateMagnet("magnet:?xx=false")
         );
 	}
@@ -166,7 +145,7 @@ class UtilTest extends TestCase
     public function testValidateMagnet()
     {
         $this->assertEquals(
-            true, 
+            true,
             Util::validateMagnet("magnet:?xs=https%3A%2F%2Fexample.com%2Fstatic%2Ftorrents%2F3a1234-azerty.torrent&xt=urn:btih:e12f01fb316895&dn=A+dname%5D&tr=wss%3A%2F%2Fexample.com%3A443%2Ftracker%2Fsocket&tr=https%3A%2F%2Fexample.com%2Ftracker%2Fannounce&ws=https%3A%2F%2Fexample.com%2Fstatic%2Fwebseed%2F3af1234-azerty.mp4")
         );
 	}
@@ -177,7 +156,7 @@ class UtilTest extends TestCase
     public function testValidateMediaType()
     {
         $this->assertEquals(
-            true, 
+            true,
             Util::validateMediaType("application/json")
         );
 	}
@@ -188,7 +167,7 @@ class UtilTest extends TestCase
     public function testValidateMultiMediaType()
     {
         $this->assertEquals(
-            true, 
+            true,
             Util::validateMediaType("application/x-bittorrent;x-scheme-handler/magnet")
         );
 	}

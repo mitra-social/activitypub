@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 
 /**
  * Request handler
- */ 
+ */
 class GuzzleActivityPubClient implements ActivityPubClientInterface
 {
     const HTTP_HEADER_ACCEPT = 'application/activity+json,application/ld+json,application/json';
@@ -20,7 +20,7 @@ class GuzzleActivityPubClient implements ActivityPubClientInterface
 
     /**
      * Allowed HTTP methods
-     * 
+     *
      * @var array
      */
     protected $allowedMethods = [
@@ -29,18 +29,25 @@ class GuzzleActivityPubClient implements ActivityPubClientInterface
 
     /**
      * HTTP client
-     * 
+     *
      * @var \GuzzleHttp\Client
      */
     protected $client;
 
     /**
+     * @var DecoderInterface
+     */
+    protected $decoder;
+
+    /**
      * Set HTTP client
-     * 
+     *
+     * @param DecoderInterface $decoder
      * @param float|int $timeout
      */
-    public function __construct($timeout = 10.0)
+    public function __construct(DecoderInterface $decoder, $timeout = 5.0)
     {
+        $this->decoder = $decoder;
         $this->client = new Client([
             'timeout' => $timeout,
             'headers' => [
@@ -48,10 +55,10 @@ class GuzzleActivityPubClient implements ActivityPubClientInterface
             ]
         ]);
     }
-    
+
     /**
      * Execute a GET request
-     * 
+     *
      * @param  string $url
      * @return array
      */
@@ -63,6 +70,6 @@ class GuzzleActivityPubClient implements ActivityPubClientInterface
             throw new Exception($exception->getMessage());
         }
 
-        return Util::decodeJson($content);
+        return $this->decoder->decode($content);
     }
 }

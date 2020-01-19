@@ -30,14 +30,24 @@ abstract class ServerTestCase extends TestCase
 
     public function getServer(array $config = []): Server
     {
-        $activityPubClient = new Server\Http\GuzzleActivityPubClient(0.5);
-        $webfingerClient = new Server\Http\WebFingerClient($activityPubClient, false);
-        $typeFactory = new TypeFactory(new TypeResolver(), new Validator());
+        $typeFactory = new TypeFactory(new TypeResolver());
         $normalizer = new Server\Http\Normalizer();
         $denoramlizer = new Server\Http\Denormalizer($typeFactory);
+        $encoder = new Server\Http\JsonEncoder();
+        $decoder = new Server\Http\JsonDecoder();
+        $activityPubClient = new Server\Http\GuzzleActivityPubClient($decoder, 0.5);
+        $webfingerClient = new Server\Http\WebFingerClient($activityPubClient, false);
 
         return new Server(
-            $this->httpFactory, $activityPubClient, $webfingerClient, $typeFactory, $normalizer, $denoramlizer, $config
+            $this->httpFactory,
+            $activityPubClient,
+            $webfingerClient,
+            $typeFactory,
+            $normalizer,
+            $denoramlizer,
+            $encoder,
+            $decoder,
+            $config
         );
     }
 }

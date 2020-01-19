@@ -7,6 +7,8 @@ use ActivityPhp\Server\Actor\Inbox;
 use ActivityPhp\Server\Actor\Outbox;
 use ActivityPhp\Server\Configuration;
 use ActivityPhp\Server\Http\ActivityPubClientInterface;
+use ActivityPhp\Server\Http\DecoderInterface;
+use ActivityPhp\Server\Http\EncoderInterface;
 use ActivityPhp\Server\Http\NormalizerInterface;
 use ActivityPhp\Server\Http\WebFingerClient;
 use ActivityPhp\Server\Http\DenormalizerInterface;
@@ -65,6 +67,16 @@ class Server
     private $denormalizer;
 
     /**
+     * @var DecoderInterface
+     */
+    private $decoder;
+
+    /**
+     * @var EncoderInterface
+     */
+    private $encoder;
+
+    /**
      * Server constructor
      *
      * @param ResponseFactoryInterface $responseFactory
@@ -73,6 +85,8 @@ class Server
      * @param TypeFactory $typeFactory
      * @param NormalizerInterface $normalizer
      * @param DenormalizerInterface $denormalizer
+     * @param EncoderInterface $encoder
+     * @param DecoderInterface $decoder
      * @param array $config Server configuration
      * @throws \Exception
      */
@@ -83,6 +97,8 @@ class Server
         TypeFactory $typeFactory,
         NormalizerInterface $normalizer,
         DenormalizerInterface $denormalizer,
+        EncoderInterface $encoder,
+        DecoderInterface $decoder,
         array $config = []
     ) {
         $this->configuration = new Configuration($config);
@@ -93,6 +109,8 @@ class Server
         $this->typeFactory = $typeFactory;
         $this->normalizer = $normalizer;
         $this->denormalizer = $denormalizer;
+        $this->encoder = $encoder;
+        $this->decoder = $decoder;
     }
 
     /**
@@ -110,7 +128,7 @@ class Server
     /**
      * Get an inbox instance
      * It's a local instance
-     * 
+     *
      * @param  string $handle An actor name
      * @return Inbox
      */
@@ -131,7 +149,7 @@ class Server
     /**
      * Get an outbox instance
      * It may be a local or a distant outbox.
-     * 
+     *
      * @param  string $handle
      * @return \ActivityPhp\Server\Actor\Outbox
      */
@@ -205,5 +223,21 @@ class Server
     public function getDenormalizer(): DenormalizerInterface
     {
         return $this->denormalizer;
+    }
+
+    /**
+     * @return DecoderInterface
+     */
+    public function getDecoder(): DecoderInterface
+    {
+        return $this->decoder;
+    }
+
+    /**
+     * @return EncoderInterface
+     */
+    public function getEncoder(): EncoderInterface
+    {
+        return $this->encoder;
     }
 }

@@ -24,7 +24,7 @@ abstract class Util
 {
     /**
      * Allowed units
-     * 
+     *
      * @var string[]
      */
     protected static $units = [
@@ -33,9 +33,9 @@ abstract class Util
 
     /**
      * Tranform an array into an ActivityStreams type
-     * 
+     *
      * @param  array $item
-     * @return mixed An ActivityStreams type or given array if type key 
+     * @return mixed An ActivityStreams type or given array if type key
      * is not defined.
      */
     public static function arrayToType(array $item)
@@ -51,7 +51,7 @@ abstract class Util
 
     /**
      * Validate an URL
-     * 
+     *
      * @param  mixed $value
      * @return bool
      */
@@ -67,10 +67,10 @@ abstract class Util
 
     /**
      * Validate a magnet link
-     * 
+     *
      * @todo Make a better validation as xs is not the only parameter
      * @see  https://en.wikipedia.org/wiki/Magnet_URI_scheme
-     * 
+     *
      * @param  mixed $value
      * @return bool
      */
@@ -79,15 +79,15 @@ abstract class Util
         return is_string($value)
             && strlen($value) < 262144
             && preg_match(
-                '#^magnet:\?xs=(https?)://.*$#iu', 
+                '#^magnet:\?xs=(https?)://.*$#iu',
                 urldecode($value)
-        
+
         );
     }
 
     /**
      * Validate an OStatus tag string
-     * 
+     *
      * @param  mixed $value
      * @return bool
      */
@@ -96,16 +96,16 @@ abstract class Util
         return is_string($value)
             && strlen($value) < 262144
             && preg_match(
-                '#^tag:([\w\-\.]+),([\d]{4}-[\d]{2}-[\d]{2}):([\w])+Id=([\d]+):objectType=([\w]+)#iu', 
+                '#^tag:([\w\-\.]+),([\d]{4}-[\d]{2}-[\d]{2}):([\w])+Id=([\d]+):objectType=([\w]+)#iu',
                 $value
             );
     }
 
     /**
      * Validate a rel attribute value.
-     * 
+     *
      * @see https://tools.ietf.org/html/rfc5988
-     * 
+     *
      * @param  string $value
      * @return bool
      */
@@ -117,7 +117,7 @@ abstract class Util
 
     /**
      * Validate a non negative integer.
-     * 
+     *
      * @param  int $value
      * @return bool
      */
@@ -129,7 +129,7 @@ abstract class Util
 
     /**
      * Validate a non negative number.
-     * 
+     *
      * @param  int|float $value
      * @return bool
      */
@@ -141,7 +141,7 @@ abstract class Util
 
     /**
      * Validate units format.
-     * 
+     *
      * @param  string $value
      * @return bool
      */
@@ -158,7 +158,7 @@ abstract class Util
 
     /**
      * Validate an Object type
-     * 
+     *
      * @param  object $item
      * @return bool
      */
@@ -170,26 +170,8 @@ abstract class Util
     }
 
     /**
-     * Decode a JSON string
-     * 
-     * @param  string $value
-     * @return array
-     * @throws \Exception if JSON decoding process has failed
-     */
-    public static function decodeJson(string $value)
-    {
-        $json = json_decode($value, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('JSON decoding failed for string: ' . $value);
-        }
-
-        return $json;
-    }
-
-    /**
      * Checks that all properties exist for a stdClass
-     * 
+     *
      * @param  object $item
      * @param  array  $properties
      * @param  bool   $strict If true throws an \Exception,
@@ -220,7 +202,7 @@ abstract class Util
 
     /**
      * Validate a reference with a Link or an Object with an URL
-     * 
+     *
      * @param object $item
      * @return bool
      */
@@ -241,7 +223,7 @@ abstract class Util
 
     /**
      * Validate a reference as Link
-     * 
+     *
      * @param array|object $item
      * @return bool
      */
@@ -271,7 +253,7 @@ abstract class Util
 
     /**
      * Validate a datetime
-     * 
+     *
      * @param  string $value
      * @return bool
      */
@@ -294,7 +276,7 @@ abstract class Util
 
     /**
      * Check that container class is a subclass of a given class
-     * 
+     *
      * @param object $container
      * @param string|array $classes
      * @param bool   $strict If true, throws an exception
@@ -330,7 +312,7 @@ abstract class Util
      * Checks that a numeric value is part of a range.
      * If a minimal value is null, value has to be inferior to max value
      * If a maximum value is null, value has to be superior to min value
-     * 
+     *
      * @param int|float $value
      * @param null|int|float $min
      * @param null|int|float $max
@@ -354,11 +336,11 @@ abstract class Util
                     && $value <= $max;
         }
     }
-            
+
 
     /**
      * Check that a given string is a valid XML Schema xsd:duration
-     * 
+     *
      * @param string $duration
      * @param bool   $strict If true, throws an exception
      * @return bool
@@ -384,7 +366,7 @@ abstract class Util
 
     /**
      * Checks that it's an object type
-     * 
+     *
      * @param  object $item
      * @return bool
      */
@@ -395,7 +377,7 @@ abstract class Util
 
     /**
      * Checks that it's an actor type
-     * 
+     *
      * @param  object $item
      * @return bool
      */
@@ -406,7 +388,7 @@ abstract class Util
 
     /**
      * Validate an object type with type attribute
-     * 
+     *
      * @param object $item
      * @param string $type An expected type
      * @return bool
@@ -417,7 +399,7 @@ abstract class Util
         if (!is_object($item)) {
             return false;
         }
-        
+
         if (property_exists($item, 'type')
             && is_string($item->type)
             && $item->type == $type
@@ -428,7 +410,7 @@ abstract class Util
 
     /**
      * Validate a BCP 47 language value
-     * 
+     *
      * @param  string $value
      * @return bool
      */
@@ -443,7 +425,7 @@ abstract class Util
 
     /**
      * Validate a plain text value
-     * 
+     *
      * @param  string $value
      * @return bool
      */
@@ -458,7 +440,7 @@ abstract class Util
 
     /**
      * Validate mediaType format
-     * 
+     *
      * @param  string $value
      * @return bool
      */
@@ -473,7 +455,7 @@ abstract class Util
 
     /**
      * Validate a Collection type
-     * 
+     *
      * @param object $item
      * @return bool
      */
@@ -494,7 +476,7 @@ abstract class Util
 
     /**
      * Validate a CollectionPage type
-     * 
+     *
      * @param object $item
      * @return bool
      */

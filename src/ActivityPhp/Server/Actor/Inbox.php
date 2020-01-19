@@ -23,13 +23,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * A server-side inbox
- */ 
+ */
 class Inbox extends AbstractBox
 {
 
     /**
      * Post a message to current actor
-     * 
+     *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
@@ -45,11 +45,9 @@ class Inbox extends AbstractBox
             // Check current actor can post
 
             // Get content
-            $payload = Util::decodeJson((string) $request->getBody());
-
-            // Cast as an ActivityStreams type
-            $activity = $this->server->getTypeFactory()->create($payload);
-
+            $activity = $this->server->getDenormalizer()->denormalize(
+                $this->server->getDecoder()->decode((string) $request->getBody())
+            );
         } catch (Exception $exception) {
             $response = $this->server->getResponseFactory()->createResponse(400);
             $response->getBody()->write($exception->getMessage());
