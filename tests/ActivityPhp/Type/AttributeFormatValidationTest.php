@@ -106,10 +106,10 @@ class AttributeFormatValidationTest extends TestCase
 		# TypeClass, property, value
 		return [
 ['@context', Place::class, 'https://www.w3.org/ns/activitystreams'     ], # Set @context
-['accuracy', Place::class, 100                                         ], # Set accuracy (int) 
+['accuracy', Place::class, 100                                         ], # Set accuracy (int)
 ['accuracy', Place::class, 0                                           ], # Set accuracy (int)
-['accuracy', Place::class, '0'                                         ], # Set accuracy (numeric int) 
-['accuracy', Place::class, '0.5'                                       ], # Set accuracy (numeric float) 
+['accuracy', Place::class, '0'                                         ], # Set accuracy (numeric int)
+['accuracy', Place::class, '0.5'                                       ], # Set accuracy (numeric float)
 ['actor', Activity::class, 'https://example.com/bob'                   ], # Set actor as URL
 ['actor', Activity::class,  [
                               "type"   => "Person",
@@ -140,7 +140,7 @@ class AttributeFormatValidationTest extends TestCase
                                 "type" => "Note",
                                 "name" => "Option B"
                               ]
-                            ]                                          ], # Set anyOf choices 
+                            ]                                          ], # Set anyOf choices
 ['attachment', Note::class, []                                         ], # Set attachment with an empty array
 ['attachment', Note::class, $typeFactory->create(['type'=> 'Object'])          ], # Set attachment with an Object type
 ['attachment', Note::class, [ $typeFactory->create(['type'=> 'Object']) ]      ], # Set attachment with an array of Object types
@@ -164,7 +164,7 @@ class AttributeFormatValidationTest extends TestCase
                                        "content" => "This is what he looks like.",
                                        "url"     => "http://example.org/cat.jpeg"
                                      ]
-                                  ]                                    ], # Set attachment	
+                                  ]                                    ], # Set attachment
 ['attributedTo', Image::class, [
                                   [
                                     "type" => "Person",
@@ -306,11 +306,11 @@ class AttributeFormatValidationTest extends TestCase
                                       "name" => "First Page",
                                       "href" => "http://example.org/collection?page=0"
                                      ]                                 ], # Set first as Link
-['followers', Person::class, 
+['followers', Person::class,
     "https://kenzoishii.example.com/followers.json"                    ], # Set followers as link
 ['followers', Person::class, new Collection()                          ], # Set followers as collection
 ['followers', Person::class, new OrderedCollection()                   ], # Set followers as OrderedCollection
-['following', Person::class, 
+['following', Person::class,
     "https://kenzoishii.example.com/following.json"                    ], # Set following as link
 ['following', Person::class, new Collection()                          ], # Set following as collection
 ['following', Person::class, new OrderedCollection()                   ], # Set following as OrderedCollection
@@ -363,7 +363,7 @@ class AttributeFormatValidationTest extends TestCase
                         "href" => "http://example.org/icon",
                         "href" => "http://example.org/icon2"
                       ]                                                ], # Set icon as an array of string URL
-['id', Activity::class, 
+['id', Activity::class,
  'tag:my.example.org,2019-02-19:objectId=881223083:objectType=Status'  ], # Set id as a OStatus tag
 ['image', Note::class, [
                          "type" => "Image",
@@ -440,7 +440,7 @@ class AttributeFormatValidationTest extends TestCase
 ['latitude', Place::class, 42                                          ], # Set latitude as an integer
 ['latitude', Place::class, -42.6                                       ], # Set latitude as a float number
 
-['liked', Person::class, 
+['liked', Person::class,
     "https://kenzoishii.example.com/liked.json"                        ], # Set liked as link
 ['liked', Person::class, new Collection()                              ], # Set liked as collection
 ['liked', Person::class, new OrderedCollection()                       ], # Set liked as OrderedCollection
@@ -496,7 +496,7 @@ class AttributeFormatValidationTest extends TestCase
                                     "content" => "A simple note"
                                 ]
                             ]                                          ], # Set object as a collection of object
-['object', Activity::class, 
+['object', Activity::class,
  'tag:my.example.org,2019-02-19:objectId=881223083:objectType=Status'  ], # Set object as OStatus tag
 ['oneOf', Question::class, [
                               [
@@ -507,7 +507,7 @@ class AttributeFormatValidationTest extends TestCase
                                 "type" => "Note",
                                 "name" => "Option B"
                               ]
-                            ]                                          ], # Set oneOf choices 
+                            ]                                          ], # Set oneOf choices
 
 ['orderedItems', Collection::class, []                                 ], # Set orderedItems as an empty array
 ['orderedItems', OrderedCollection::class, $link                       ], # Set orderedItems as a link
@@ -739,7 +739,7 @@ class AttributeFormatValidationTest extends TestCase
                               "type" => "Note",
                               "name" => "Option B"
                              ]
-                            ]                                          ], # Set anyOf with malformed choices 
+                            ]                                          ], # Set anyOf with malformed choices
 ['anyOf', Question::class, [
                              [
                               "type" => "Note",
@@ -748,11 +748,11 @@ class AttributeFormatValidationTest extends TestCase
                              [
                               "name" => "Option B"
                              ]
-                            ]                                          ], # Set anyOf with malformed choices 
+                            ]                                          ], # Set anyOf with malformed choices
 ['anyOf', Question::class, [
                              "type" => "Note",
                              "name" => "Option A"
-                            ]                                          ], # Set anyOf with malformed choices 
+                            ]                                          ], # Set anyOf with malformed choices
 ['anyOf', Question::class, [
                              [
                               "type" => "Note",
@@ -762,7 +762,7 @@ class AttributeFormatValidationTest extends TestCase
                               "type" => "Note",
                               "name" => ["Option B"]
                              ]
-                            ]                                          ], # Set anyOf with malformed choices	
+                            ]                                          ], # Set anyOf with malformed choices
 ['attachment', Note::class, [
                               [
                                new \StdClass
@@ -1003,7 +1003,7 @@ class AttributeFormatValidationTest extends TestCase
                         "href" => "http://example.org/icon",
                         "href" => "htt://example.org/icon2"
                       ]                                                ], # Set icon as an array of string URL (malformed last one)
-['id', Activity::class, 
+['id', Activity::class,
  'tag:my.example.org,2019-02-19:object=881223083:objectType=Status'    ], # Set id as a malformed OStatus tag
 ['image', Note::class, [
                          "type" => "Imag",
@@ -1135,7 +1135,7 @@ class AttributeFormatValidationTest extends TestCase
 ['object', Relationship::class, 42                                     ], # Set object as a bad type (int)
 ['object', Activity::class, "htp://example.org"                        ], # Set object as a bad URL
 ['object', Relationship::class, [['key' => 'o']]                       ], # Set object as a bad list type
-['object', Activity::class, 
+['object', Activity::class,
  'tag:my.example.org,2019-02-19:object=881223083:objectType=Status'    ], # Set object as a malformed OStatus tag
 
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
@@ -1148,7 +1148,7 @@ class AttributeFormatValidationTest extends TestCase
                               "type" => "Note",
                               "name" => "Option B"
                              ]
-                            ]                                          ], # Set oneOf with malformed choices 
+                            ]                                          ], # Set oneOf with malformed choices
 ['oneOf', Question::class, [
                              [
                               "type" => "Note",
@@ -1157,11 +1157,11 @@ class AttributeFormatValidationTest extends TestCase
                              [
                               "name" => "Option B"
                              ]
-                            ]                                          ], # Set oneOf with malformed choices 
+                            ]                                          ], # Set oneOf with malformed choices
 ['oneOf', Question::class, [
                              "type" => "Note",
                              "name" => "Option A"
-                            ]                                          ], # Set oneOf with malformed choices 
+                            ]                                          ], # Set oneOf with malformed choices
 ['oneOf', Question::class, [
                              [
                               "type" => "Note",
@@ -1386,7 +1386,7 @@ class AttributeFormatValidationTest extends TestCase
 	/**
 	 * Check that all core objects have a correct type property.
 	 * It checks that getter is working well too.
-	 * 
+	 *
 	 * @dataProvider      getValidAttributesScenarios
 	 */
 	public function testValidAttributesScenarios($attr, $type, $value)
@@ -1395,7 +1395,7 @@ class AttributeFormatValidationTest extends TestCase
 
 		$object = new $type();
 		$object->{$attr} = is_array($value) ? $denormalizer->denormalize($value) : $value;
-        
+
         // Cast $value
         if (is_array($value)) {
             if (isset($value['type'])) {
@@ -1415,7 +1415,7 @@ class AttributeFormatValidationTest extends TestCase
 
 		$this->assertEquals($value, $object->{$attr});
 	}
-	
+
 	/**
 	 * @dataProvider      getExceptionScenarios
 	 */
@@ -1430,13 +1430,13 @@ class AttributeFormatValidationTest extends TestCase
 	}
 
 	/**
-	 * Validator validate() method MUST receive an object as third 
-     * parameter
+	 * Validator validate() method MUST receive an object as third
+     * parameters
 	 */
 	public function testValidatorValidateContainer()
-	{	
+	{
         $this->expectException(Exception::class);
 
-		Validator::validate('property', 'value', 'NotAnObject');
+		(new Validator())->validate('property', 'value', 'NotAnObject');
 	}
 }

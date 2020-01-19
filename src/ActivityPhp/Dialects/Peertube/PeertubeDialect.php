@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ActivityPhp\Dialects\Peertube;
 
+use ActivityPhp\Dialects\DialectInterface;
 use ActivityPhp\Dialects\Peertube\Type\Group as PeertubeGroup;
 use ActivityPhp\Dialects\Peertube\Type\Hashtag as PeertubeHashtag;
 use ActivityPhp\Dialects\Peertube\Type\Image as PeertubeImage;
@@ -12,7 +13,7 @@ use ActivityPhp\Dialects\Peertube\Type\Person as PeertubePerson;
 use ActivityPhp\Dialects\Peertube\Type\Video as PeertubeVideo;
 use ActivityPhp\Server;
 
-final class PeertubeDialect implements \DialectInterface
+final class PeertubeDialect implements DialectInterface
 {
 
     /**

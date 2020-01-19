@@ -1,5 +1,7 @@
 <?php
 
+namespace ActivityPhp\Dialects;
+
 interface DialectInterface
 {
     public function load(): void;
