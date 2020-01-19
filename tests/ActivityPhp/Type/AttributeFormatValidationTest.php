@@ -61,6 +61,8 @@ use ActivityPhp\Type\Extended\Object\Tombstone;
 use ActivityPhp\Type\Extended\Object\Video;
 use ActivityPhp\Type\Validator;
 use ActivityPhp\TypeFactory;
+use ActivityPhpTest\MyCustomType;
+use ActivityPhpTest\MyCustomValidator;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -1436,4 +1438,40 @@ class AttributeFormatValidationTest extends TestCase
 
 		(new Validator())->validate('property', 'value', 'NotAnObject');
 	}
+
+
+    /**
+     * Scenario for a custom classes and custom validator with an
+     * failing value
+     */
+    public function testCustomValidatorFailing()
+    {
+        $validator = new Validator();
+
+        $validator->add('customProperty', new MyCustomValidator());
+
+        $object = new MyCustomType();
+        $object->customProperty = 'Bad value';
+
+        $this->assertFalse($validator->validate('customProperty', 'Bad value', $object));
+    }
+
+    /**
+     * Scenario for a custom validator
+     *
+     * - Add a validator in the pool for 'customProperty' attribute
+     * - Create a type with this property and affect a correct value
+     */
+    public function testCustomValidatorSuccess()
+    {
+        $validator = new Validator();
+
+        $validator->add('MyCustomType', new MyCustomValidator());
+
+        $object = new MyCustomType();
+        $object->customProperty = 'My value';
+
+        // Assert type property
+        $this->assertTrue($validator->validate('customProperty', 'My value', $object));
+    }
 }

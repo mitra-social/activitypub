@@ -136,31 +136,6 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * Scenario for a custom validator
-     *
-     * - Add a validator in the pool for 'customProperty' attribute
-     * - Create a type with this property and affect a correct value
-     */
-    public function testCustomValidatorSuccess()
-    {
-        $this->markTestSkipped('Validation not in place yet');
-
-        $this->typeFactory->add('MyCustomType', MyCustomType::class);
-
-        //Type::addValidator('customProperty', MyCustomValidator::class);
-        $type = $this->typeFactory->create(
-            'MyCustomType',
-            ['customProperty' => 'My value']
-        );
-
-        // Assert type property
-        $this->assertEquals(
-            'My value',
-            $type->customProperty
-        );
-    }
-
-    /**
      * Scenario for instanciating a Type with a single parameter that
      * is not an array.
      */
@@ -171,21 +146,6 @@ class FactoryTest extends TestCase
         $this->typeFactory->create(42);
     }
 
-    /**
-     * Scenario for a custom classes and custom validator with an
-     * failing value
-     */
-    public function testCustomValidatorFailing()
-    {
-        $this->markTestSkipped('No validation in place yet');
-        $this->expectException(Exception::class);
-
-        Type::addValidator('customProperty', MyCustomValidator::class);
-        $type = Type::create(
-            'MyCustomType',
-            ['customProperty' => 'Bad value']
-        );
-    }
 
     /**
      * Scenario for a custom classes with a failing value

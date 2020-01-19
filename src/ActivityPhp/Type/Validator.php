@@ -21,17 +21,17 @@ class Validator
 {
     /**
      * Contains all custom validators
-     * 
+     *
      * @var array
-     * 
+     *
      * [ 'attributeName' => CustomValidatorClassName::class ]
      */
     protected $validators = [];
 
     /**
-     * Validate an attribute value for given attribute name and 
+     * Validate an attribute value for given attribute name and
      * container object.
-     * 
+     *
      * @param string $name
      * @param mixed  $value
      * @param mixed  $container An object
