@@ -1,29 +1,23 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
+declare(strict_types=1);
 
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Extended\Activity\Question;
 use ActivityPhp\Type\Util;
+use ActivityPhp\Type\ValidatorInterface;
 use ActivityPhp\Type\ValidatorTools;
 
 /**
  * \ActivityPhp\Type\Validator\AnyOfValidator is a dedicated
  * validator for anyOf attribute.
  */
-class AnyOfValidator extends ValidatorTools
+final class AnyOfValidator implements ValidatorInterface
 {
     /**
      * Validate an ANYOF attribute value
-     * 
+     *
      * @param mixed  $value
      * @param mixed  $container An object
      * @return bool
@@ -44,9 +38,9 @@ class AnyOfValidator extends ValidatorTools
             return false;
         }
 
-        return $this->validateObjectCollection(
+        return ValidatorTools::validateObjectCollection(
             $value,
-            $this->getQuestionAnswerValidator()
+            ValidatorTools::getQuestionAnswerValidator()
         );
     }
 }

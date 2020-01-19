@@ -22,7 +22,7 @@ class Validator
     /**
      * Contains all custom validators
      *
-     * @var array
+     * @var ValidatorInterface[]
      *
      * [ 'attributeName' => CustomValidatorClassName::class ]
      */

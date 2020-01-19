@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
+declare(strict_types=1);
 
 namespace ActivityPhp\Type;
 
@@ -23,17 +16,22 @@ use Exception;
  * It provides some methods to make some regular validations.
  * It implements \ActivityPhp\Type\ValidatorInterface.
  */
-abstract class ValidatorTools implements ValidatorInterface
+final class ValidatorTools
 {
+
+    private function __construct()
+    {
+    }
+
     /**
      * Validate a map attribute value.
-     * 
+     *
      * @param  string $type An attribute name
      * @param  mixed  $map
      * @param  object $container A valid container
      * @return bool
      */
-    protected function validateMap($type, $map, $container)
+    public static function validateMap($type, $map, $container)
     {
         // A map
         if (!is_array($map)) {
@@ -41,7 +39,7 @@ abstract class ValidatorTools implements ValidatorInterface
         }
 
         foreach ($map as $key => $value) {
-            if (!Util::validateBcp47($key) 
+            if (!Util::validateBcp47($key)
                 || !Validator::validate($type, $value, $container)
             ) {
                 return false;
@@ -53,13 +51,13 @@ abstract class ValidatorTools implements ValidatorInterface
 
     /**
      * Validate an attribute value
-     * 
+     *
      * @param  mixed $value
      * @param  mixed $container An object
      * @param  callable $callback A dedicated validator
      * @return bool
      */
-    public function validateListOrObject($value, $container, callable $callback)
+    public static function validateListOrObject($value, $container, callable $callback)
     {
         Util::subclassOf($container, ObjectType::class, true);
 
@@ -77,9 +75,9 @@ abstract class ValidatorTools implements ValidatorInterface
 
             // A collection
             if (is_int(key($value))) {
-                return $this->validateObjectCollection($value, $callback);
+                return self::validateObjectCollection($value, $callback);
             }
-            
+
             $value = Util::arrayToType($value);
         }
 
@@ -92,12 +90,12 @@ abstract class ValidatorTools implements ValidatorInterface
 
     /**
      * Validate a list of Collection
-     * 
+     *
      * @param  array $collection
      * @param  callable $callback A dedicated validator
      * @return bool
      */
-    protected function validateObjectCollection(array $collection, callable $callback)
+    public static function validateObjectCollection(array $collection, callable $callback)
     {
         foreach ($collection as $item) {
             if ($callback($item)) {
@@ -116,7 +114,7 @@ abstract class ValidatorTools implements ValidatorInterface
      * @param  string $value
      * @return bool
      */
-    protected function validateString($value)
+    public static function validateString($value)
     {
         if (!is_string($value) || strlen($value) < 1) {
             throw new Exception(
@@ -132,12 +130,12 @@ abstract class ValidatorTools implements ValidatorInterface
 
     /**
      * A callback function for validateListOrObject method
-     * 
+     *
      * It validate a Link or a named object
-     * 
+     *
      * @return callable
      */
-    protected function getLinkOrNamedObjectValidator()
+    public static function getLinkOrNamedObjectValidator()
     {
         return function ($item) {
             if (is_string($item)) {
@@ -171,14 +169,14 @@ abstract class ValidatorTools implements ValidatorInterface
      *
      * @return callable
      */
-    protected function getLinkOrUrlObjectValidator()
+    public static function getLinkOrUrlObjectValidator()
     {
         return function ($item) {
             if (is_array($item)) {
                 $item = Util::arrayToType($item);
             }
 
-            if (is_object($item) 
+            if (is_object($item)
                 && Util::isLinkOrUrlObject($item)) {
                 return true;
             } elseif (Util::validateUrl($item)) {
@@ -191,12 +189,12 @@ abstract class ValidatorTools implements ValidatorInterface
     /**
      * A callback function for attachment validation
      *
-     * Validate a reference with a Link, an Object with an URL 
+     * Validate a reference with a Link, an Object with an URL
      * or an ObjectType
      *
      * @return callable
      */
-    protected function getAttachmentValidator()
+    public static function getAttachmentValidator()
     {
         return function ($item) {
             if (is_array($item)) {
@@ -207,7 +205,7 @@ abstract class ValidatorTools implements ValidatorInterface
                 if (Util::isLinkOrUrlObject($item)) {
                     return true;
                 }
-                
+
                 return ($item instanceof ObjectType);
             } elseif (Util::validateUrl($item)) {
                 return true;
@@ -220,7 +218,7 @@ abstract class ValidatorTools implements ValidatorInterface
      *
      * @return callable
      */
-    protected function getQuestionAnswerValidator()
+    public static function getQuestionAnswerValidator()
     {
         return function ($item) {
             if (is_array($item)) {
@@ -242,7 +240,7 @@ abstract class ValidatorTools implements ValidatorInterface
      *
      * @return callable
      */
-    protected function getCollectionItemsValidator()
+    public static function getCollectionItemsValidator()
     {
         return function ($item) {
             if (is_string($item)) {
@@ -252,11 +250,11 @@ abstract class ValidatorTools implements ValidatorInterface
             if (is_array($item)) {
                 $item = Util::arrayToType($item);
             }
-            
+
             if (!is_object($item)) {
                 return false;
             }
-            
+
             return Util::hasProperties($item, ['type'], true);
         };
     }
@@ -266,7 +264,7 @@ abstract class ValidatorTools implements ValidatorInterface
      *
      * @return callable
      */
-    protected function getCollectionActorsValidator()
+    public static function getCollectionActorsValidator()
     {
         return function ($item) {
             if (is_string($item)) {
@@ -276,7 +274,7 @@ abstract class ValidatorTools implements ValidatorInterface
             if (is_array($item)) {
                 $item = Util::arrayToType($item);
             }
-            
+
             if (!is_object($item)) {
                 return false;
             }

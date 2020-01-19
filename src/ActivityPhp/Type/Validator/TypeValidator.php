@@ -1,30 +1,24 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
+declare(strict_types=1);
 
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Core\Link;
 use ActivityPhp\Type\Core\ObjectType;
 use ActivityPhp\Type\Util;
+use ActivityPhp\Type\ValidatorInterface;
 use ActivityPhp\Type\ValidatorTools;
 
 /**
  * \ActivityPhp\Type\Validator\TypeValidator is a dedicated
  * validator for type attribute.
  */
-class TypeValidator extends ValidatorTools
+final class TypeValidator implements ValidatorInterface
 {
     /**
      * Validate a type value
-     * 
+     *
      * @param  string $value
      * @param  mixed  $container An Object type
      * @return bool
@@ -33,12 +27,12 @@ class TypeValidator extends ValidatorTools
     {
         // Validate that container is an ObjectType or a Link
         Util::subclassOf(
-            $container, 
+            $container,
             [ObjectType::class, Link::class],
             true
         );
 
-        return $this->validateString(
+        return ValidatorTools::validateString(
             $value
         );
     }
