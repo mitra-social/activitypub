@@ -1379,7 +1379,7 @@ class AttributeFormatValidationTest extends TestCase
         }
 
 		$this->assertEquals($value, $object->{$attr});
-        $this->assertTrue($this->getValidator()->validate($attr, $value, $object));
+        $this->assertTrue($this->getValidator()->validateObject($object));
 	}
 
 	/**

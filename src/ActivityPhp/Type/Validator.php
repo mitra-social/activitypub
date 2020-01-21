@@ -55,6 +55,23 @@ class Validator
         return true;
     }
 
+    public function validateObject(AbstractObject $object): bool
+    {
+        foreach ($object->getPropertyValues() as $name => $value) {
+            if (null === $value) {
+                continue;
+            }
+
+            if ($value instanceof AbstractObject && !$this->validateObject($value)) {
+                return false;
+            } elseif (!$this->validate($name, $value, $object)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Add a new validator in the pool.
      * It checks that it implements Validator\Interface
