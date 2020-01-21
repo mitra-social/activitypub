@@ -11,7 +11,7 @@ use ActivityPhp\Type\ValidatorTools;
  * \ActivityPhp\Type\Validator\BtoValidator is a dedicated
  * validator for bto attribute.
  */
-final class BtoValidator implements ValidatorInterface
+class BtoValidator implements ValidatorInterface
 {
     /**
      * Validate a bto value

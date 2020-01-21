@@ -13,7 +13,7 @@ use ActivityPhp\Type\ValidatorTools;
  * \ActivityPhp\Type\Validator\AnyOfValidator is a dedicated
  * validator for anyOf attribute.
  */
-final class AnyOfValidator implements ValidatorInterface
+class AnyOfValidator implements ValidatorInterface
 {
     /**
      * Validate an ANYOF attribute value

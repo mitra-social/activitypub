@@ -14,6 +14,7 @@ namespace ActivityPhp\Type\Validator;
 use ActivityPhp\Type\Core\Activity;
 use ActivityPhp\Type\Core\ObjectType;
 use ActivityPhp\Type\Extended\Object\Relationship;
+use ActivityPhp\Type\TypeResolver;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
 
@@ -23,6 +24,20 @@ use ActivityPhp\Type\ValidatorInterface;
  */
 class ObjectValidator implements ValidatorInterface
 {
+
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
+    /**
+     * @param TypeResolver $typeResolver
+     */
+    public function __construct(TypeResolver $typeResolver)
+    {
+        $this->typeResolver = $typeResolver;
+    }
+
     /**
      * Validate an object value
      * 
@@ -52,7 +67,7 @@ class ObjectValidator implements ValidatorInterface
         // Link or Object
         if (is_object($value)) {
             return Util::validateLink($value)
-                || Util::isObjectType($value);
+                || Util::isObjectType($value, $this->typeResolver);
         }
         
         // Collection

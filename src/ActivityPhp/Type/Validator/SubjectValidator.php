@@ -12,6 +12,7 @@
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Extended\Object\Relationship;
+use ActivityPhp\Type\TypeResolver;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
 
@@ -21,6 +22,19 @@ use ActivityPhp\Type\ValidatorInterface;
  */
 class SubjectValidator implements ValidatorInterface
 {
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
+    /**
+     * @param TypeResolver $typeResolver
+     */
+    public function __construct(TypeResolver $typeResolver)
+    {
+        $this->typeResolver = $typeResolver;
+    }
+
     /**
      * Validate subject value
      * 
@@ -49,7 +63,7 @@ class SubjectValidator implements ValidatorInterface
         // Link or ObjectType
         if (is_object($value)) {
             return Util::validateLink($value)
-                || Util::isObjectType($value);
+                || Util::isObjectType($value, $this->typeResolver);
         }
     }
 }

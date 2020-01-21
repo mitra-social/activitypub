@@ -31,7 +31,7 @@ final class ValidatorTools
      * @param  object $container A valid container
      * @return bool
      */
-    public static function validateMap($type, $map, $container)
+    public static function validateMap($type, $map, $container, Validator $validator)
     {
         // A map
         if (!is_array($map)) {
@@ -40,7 +40,7 @@ final class ValidatorTools
 
         foreach ($map as $key => $value) {
             if (!Util::validateBcp47($key)
-                || !Validator::validate($type, $value, $container)
+                || !$validator->validate($type, $value, $container)
             ) {
                 return false;
             }

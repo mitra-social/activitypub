@@ -1,18 +1,12 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
+declare(strict_types=1);
 
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Core\Link;
 use ActivityPhp\Type\Core\ObjectType;
+use ActivityPhp\Type\TypeResolver;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
 
@@ -22,6 +16,20 @@ use ActivityPhp\Type\ValidatorInterface;
  */
 class PreviewValidator implements ValidatorInterface
 {
+
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
+    /**
+     * @param TypeResolver $typeResolver
+     */
+    public function __construct(TypeResolver $typeResolver)
+    {
+        $this->typeResolver = $typeResolver;
+    }
+
     /**
      * Validate a preview value
      * 
@@ -50,7 +58,7 @@ class PreviewValidator implements ValidatorInterface
         // Link or Object
         if (is_object($value)) {
             return Util::validateLink($value)
-                || Util::isObjectType($value);
+                || Util::isObjectType($value, $this->typeResolver);
         }
     }
 }

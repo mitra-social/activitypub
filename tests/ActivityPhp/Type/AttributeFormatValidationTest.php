@@ -3,57 +3,23 @@
 namespace ActivityPhpTest\Type;
 
 use ActivityPhp\Server\Http\Denormalizer;
-use ActivityPhp\Server\Http\Normalizer;
 use ActivityPhp\Type;
 use ActivityPhp\Type\Core\Activity;
 use ActivityPhp\Type\Core\Collection;
 use ActivityPhp\Type\Core\CollectionPage;
-use ActivityPhp\Type\Core\IntransitiveActivity;
 use ActivityPhp\Type\Core\Link;
 use ActivityPhp\Type\Core\ObjectType;
 use ActivityPhp\Type\Core\OrderedCollection;
 use ActivityPhp\Type\Core\OrderedCollectionPage;
 use ActivityPhp\Type\Extended\Actor\Application;
-use ActivityPhp\Type\Extended\Actor\Group;
-use ActivityPhp\Type\Extended\Actor\Organization;
 use ActivityPhp\Type\Extended\Actor\Person;
-use ActivityPhp\Type\Extended\Actor\Service;
-use ActivityPhp\Type\Extended\Activity\Accept;
-use ActivityPhp\Type\Extended\Activity\Add;
-use ActivityPhp\Type\Extended\Activity\Announce;
-use ActivityPhp\Type\Extended\Activity\Arrive;
-use ActivityPhp\Type\Extended\Activity\Block;
 use ActivityPhp\Type\Extended\Activity\Create;
-use ActivityPhp\Type\Extended\Activity\Delete;
-use ActivityPhp\Type\Extended\Activity\Dislike;
-use ActivityPhp\Type\Extended\Activity\Flag;
-use ActivityPhp\Type\Extended\Activity\Follow;
-use ActivityPhp\Type\Extended\Activity\Ignore;
-use ActivityPhp\Type\Extended\Activity\Invite;
-use ActivityPhp\Type\Extended\Activity\Join;
-use ActivityPhp\Type\Extended\Activity\Leave;
 use ActivityPhp\Type\Extended\Activity\Like;
-use ActivityPhp\Type\Extended\Activity\Listen;
-use ActivityPhp\Type\Extended\Activity\Move;
 use ActivityPhp\Type\Extended\Activity\Offer;
 use ActivityPhp\Type\Extended\Activity\Question;
-use ActivityPhp\Type\Extended\Activity\Read;
-use ActivityPhp\Type\Extended\Activity\Reject;
-use ActivityPhp\Type\Extended\Activity\Remove;
-use ActivityPhp\Type\Extended\Activity\TentativeAccept;
-use ActivityPhp\Type\Extended\Activity\TentativeReject;
-use ActivityPhp\Type\Extended\Activity\Travel;
-use ActivityPhp\Type\Extended\Activity\Undo;
-use ActivityPhp\Type\Extended\Activity\Update;
-use ActivityPhp\Type\Extended\Activity\View;
-use ActivityPhp\Type\Extended\Object\Article;
-use ActivityPhp\Type\Extended\Object\Audio;
 use ActivityPhp\Type\Extended\Object\Document;
-use ActivityPhp\Type\Extended\Object\Event;
 use ActivityPhp\Type\Extended\Object\Image;
-use ActivityPhp\Type\Extended\Object\Mention;
 use ActivityPhp\Type\Extended\Object\Note;
-use ActivityPhp\Type\Extended\Object\Page;
 use ActivityPhp\Type\Extended\Object\Place;
 use ActivityPhp\Type\Extended\Object\Profile;
 use ActivityPhp\Type\Extended\Object\Relationship;
@@ -1413,6 +1379,7 @@ class AttributeFormatValidationTest extends TestCase
         }
 
 		$this->assertEquals($value, $object->{$attr});
+        $this->assertTrue($this->getValidator()->validate($attr, $value, $object));
 	}
 
 	/**
@@ -1425,7 +1392,7 @@ class AttributeFormatValidationTest extends TestCase
 		$object = new $type();
 		$object->{$attr} = $value;
 
-        (new Validator())->validate($attr, $value, $type);
+        $this->getValidator()->validate($attr, $value, $type);
 	}
 
 	/**
@@ -1473,5 +1440,89 @@ class AttributeFormatValidationTest extends TestCase
 
         // Assert type property
         $this->assertTrue($validator->validate('customProperty', 'My value', $object));
+    }
+
+    private function getValidator(): Validator
+    {
+        $typeResolver = new Type\TypeResolver();
+        $validator = new Validator();
+
+        $validator->add('accuracy', new Validator\AccuracyValidator());
+        $validator->add('actor', new Validator\ActorValidator());
+        $validator->add('altitude', new Validator\AltitudeValidator());
+        $validator->add('anyOf', new Validator\AnyOfValidator());
+        $validator->add('attachment', new Validator\AttachmentValidator());
+        $validator->add('attributedTo', new Validator\AttributedToValidator());
+        $validator->add('audience', new Validator\AudienceValidator());
+        $validator->add('bcc', new Validator\BccValidator());
+        $validator->add('bto', new Validator\BtoValidator());
+        $validator->add('cc', new Validator\CcValidator());
+        $validator->add('closed', new Validator\ClosedValidator());
+        $validator->add('contentMap', new Validator\ContentMapValidator($validator));
+        $validator->add('content', new Validator\ContentValidator());
+        $validator->add('content', new Validator\ContentValidator());
+        $validator->add('context', new Validator\ContextValidator());
+        $validator->add('current', new Validator\CurrentValidator());
+        $validator->add('deleted', new Validator\DeletedValidator());
+        $validator->add('describes', new Validator\DescribesValidator());
+        $validator->add('duration', new Validator\DurationValidator());
+        $validator->add('endpoints', new Validator\EndpointsValidator());
+        $validator->add('endTime', new Validator\EndTimeValidator());
+        $validator->add('first', new Validator\FirstValidator());
+        $validator->add('followers', new Validator\FollowersValidator());
+        $validator->add('following', new Validator\FollowingValidator());
+        $validator->add('formerType', new Validator\FormerTypeValidator($typeResolver));
+        $validator->add('generator', new Validator\GeneratorValidator($typeResolver));
+        $validator->add('height', new Validator\HeightValidator());
+        $validator->add('hrefLang', new Validator\HreflangValidator());
+        $validator->add('icon', new Validator\IconValidator());
+        $validator->add('id', new Validator\IdValidator());
+        $validator->add('image', new Validator\ImageValidator());
+        $validator->add('inbox', new Validator\InboxValidator());
+        $validator->add('inReplyTo', new Validator\InReplyToValidator($typeResolver));
+        $validator->add('instrument', new Validator\InstrumentValidator());
+        $validator->add('items', new Validator\ItemsValidator());
+        $validator->add('last', new Validator\LastValidator());
+        $validator->add('latitude', new Validator\LatitudeValidator());
+        $validator->add('liked', new Validator\LikedValidator());
+        $validator->add('location', new Validator\LocationValidator($typeResolver));
+        $validator->add('longitude', new Validator\LongitudeValidator());
+        $validator->add('mediaType', new Validator\MediaTypeValidator());
+        $validator->add('nameMap', new Validator\NameMapValidator($validator));
+        $validator->add('name', new Validator\NameValidator());
+        $validator->add('next', new Validator\NextValidator());
+        $validator->add('object', new Validator\ObjectValidator($typeResolver));
+        $validator->add('oneOf', new Validator\OneOfValidator());
+        $validator->add('orderedItems', new Validator\OrderedItemsValidator());
+        $validator->add('origin', new Validator\OriginValidator($typeResolver));
+        $validator->add('outbox', new Validator\OutboxValidator());
+        $validator->add('partOf', new Validator\PartOfValidator());
+        $validator->add('preferredUsername', new Validator\PreferredUsernameValidator());
+        $validator->add('preview', new Validator\PreviewValidator($typeResolver));
+        $validator->add('prev', new Validator\PrevValidator());
+        $validator->add('published', new Validator\PublishedValidator());
+        $validator->add('radius', new Validator\RadiusValidator());
+        $validator->add('relationship', new Validator\RelationshipValidator($typeResolver));
+        $validator->add('rel', new Validator\RelValidator());
+        $validator->add('replies', new Validator\RepliesValidator());
+        $validator->add('result', new Validator\ResultValidator($typeResolver));
+        $validator->add('source', new Validator\SourceValidator());
+        $validator->add('startIndex', new Validator\StartIndexValidator());
+        $validator->add('startTime', new Validator\StartTimeValidator());
+        $validator->add('streams', new Validator\StreamsValidator());
+        $validator->add('subject', new Validator\SubjectValidator($typeResolver));
+        $validator->add('summaryMap', new Validator\SummaryMapValidator($validator));
+        $validator->add('summary', new Validator\SummaryValidator());
+        $validator->add('tag', new Validator\TagValidator());
+        $validator->add('target', new Validator\TargetValidator());
+        $validator->add('totalItems', new Validator\TotalItemsValidator());
+        $validator->add('to', new Validator\ToValidator());
+        $validator->add('type', new Validator\TypeValidator());
+        $validator->add('units', new Validator\UnitsValidator());
+        $validator->add('updated', new Validator\UpdatedValidator());
+        $validator->add('url', new Validator\UrlValidator());
+        $validator->add('width', new Validator\WidthValidator());
+
+        return $validator;
     }
 }

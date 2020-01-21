@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Util;
+use ActivityPhp\Type\Validator;
 use ActivityPhp\Type\ValidatorInterface;
 use ActivityPhp\Type\ValidatorTools;
 
@@ -14,6 +15,20 @@ use ActivityPhp\Type\ValidatorTools;
  */
 final class ContentMapValidator implements ValidatorInterface
 {
+
+    /**
+     * @var Validator
+     */
+    private $validator;
+
+    /**
+     * @param Validator $validator
+     */
+    public function __construct(Validator $validator)
+    {
+        $this->validator = $validator;
+    }
+
     /**
      * Validate a contentMap value
      *
@@ -23,6 +38,6 @@ final class ContentMapValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        return ValidatorTools::validateMap('content', $value, $container);
+        return ValidatorTools::validateMap('content', $value, $container, $this->validator);
     }
 }

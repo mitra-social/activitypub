@@ -370,9 +370,9 @@ abstract class Util
      * @param  object $item
      * @return bool
      */
-    public static function isObjectType($item)
+    public static function isObjectType($item, TypeResolver $typeResolver)
     {
-        return TypeResolver::isScope($item);
+        return $typeResolver->isScope($item);
     }
 
     /**
@@ -381,9 +381,9 @@ abstract class Util
      * @param  object $item
      * @return bool
      */
-    public static function isActorType($item)
+    public static function isActorType($item, TypeResolver $typeResolver)
     {
-        return TypeResolver::isScope($item, 'actor');
+        return $typeResolver->isScope($item, 'actor');
     }
 
     /**

@@ -12,6 +12,7 @@
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Core\ObjectType;
+use ActivityPhp\Type\TypeResolver;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
 
@@ -21,6 +22,20 @@ use ActivityPhp\Type\ValidatorInterface;
  */
 class GeneratorValidator implements ValidatorInterface
 {
+
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
+    /**
+     * @param TypeResolver $typeResolver
+     */
+    public function __construct(TypeResolver $typeResolver)
+    {
+        $this->typeResolver = $typeResolver;
+    }
+
     /**
      * Validate a generator attribute value
      * 
@@ -42,6 +57,6 @@ class GeneratorValidator implements ValidatorInterface
         }
 
         // MUST be a valid Actor type
-        return Util::isActorType($value) || Util::validateLink($value);
+        return Util::isActorType($value, $this->typeResolver) || Util::validateLink($value);
     }    
 }

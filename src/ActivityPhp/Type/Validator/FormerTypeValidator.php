@@ -12,6 +12,7 @@
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Extended\Object\Tombstone;
+use ActivityPhp\Type\TypeResolver;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
 
@@ -21,6 +22,20 @@ use ActivityPhp\Type\ValidatorInterface;
  */
 class FormerTypeValidator implements ValidatorInterface
 {
+
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
+    /**
+     * @param TypeResolver $typeResolver
+     */
+    public function __construct(TypeResolver $typeResolver)
+    {
+        $this->typeResolver = $typeResolver;
+    }
+
     /**
      * Validate a formerType attribute value
      * 
@@ -38,6 +53,6 @@ class FormerTypeValidator implements ValidatorInterface
         }
 
         // MUST be a valid Object type
-        return Util::isObjectType($value);
+        return Util::isObjectType($value, $this->typeResolver);
     }    
 }

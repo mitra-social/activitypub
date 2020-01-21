@@ -14,7 +14,7 @@ use ActivityPhp\Type\ValidatorTools;
  * \ActivityPhp\Type\Validator\ItemsValidator is a dedicated
  * validator for items attribute.
  */
-final class ItemsValidator implements ValidatorInterface
+class ItemsValidator implements ValidatorInterface
 {
     /**
      * Validate items value
