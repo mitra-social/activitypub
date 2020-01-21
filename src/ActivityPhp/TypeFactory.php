@@ -3,10 +3,7 @@
 namespace ActivityPhp;
 
 use ActivityPhp\Type\AbstractObject;
-use ActivityPhp\Type\Dialect;
 use ActivityPhp\Type\TypeResolver;
-use ActivityPhp\Type\Validator;
-use DeepCopy\DeepCopy;
 use Exception;
 
 /**
